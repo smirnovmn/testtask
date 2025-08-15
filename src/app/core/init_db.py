@@ -24,7 +24,8 @@ async def create_user(
                         UserCreate(
                             email=email,
                             password=password,
-                            is_superuser=is_superuser
+                            is_superuser=is_superuser,
+                            age=30
                         )
                     )
     except UserAlreadyExists:

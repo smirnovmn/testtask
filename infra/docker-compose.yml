@@ -1,29 +1,33 @@
 version: "3.9"
 
 services:
-  db:
-    image: postgres:15
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: testdb
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  web:
+  backend:
     build:
       context: ..
       dockerfile: infra/Dockerfile
-    volumes:
-      - ../src:/app
+    container_name: fastapi_app
     ports:
       - "8000:8000"
-    environment:
-      DATABASE_URL: postgres+asyncpg://user:password@db:5432/testdb
+    volumes:
+      - ../src:/app
+    env_file:
+      - .env
     depends_on:
       - db
+    restart: unless-stopped
+
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
 
 volumes:
   postgres_data:
