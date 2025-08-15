@@ -37,9 +37,9 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-###Swagger UI для тестирования эндпоинтов:
+### Swagger UI для тестирования эндпоинтов:
 http://127.0.0.1:8000/docs
 
-###Redoc документация:
+### Redoc документация:
 http://127.0.0.1:8000/redoc
 
